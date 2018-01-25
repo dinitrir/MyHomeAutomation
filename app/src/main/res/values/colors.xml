@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fe9602</color>
+    <color name="colorPrimaryDark">#fe7504</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="safe_green">#94c64d</color>
+    <color name="warning_red">#db4343</color>
+    <color name="black">#000</color>
+    <color name="HamburgerMenuItem">#2882a6</color>
+</resources>

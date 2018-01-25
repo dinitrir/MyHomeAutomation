@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/itemDashboard"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            android:title="Dashboard" />
+        <item
+            android:id="@+id/itemLight"
+            android:icon="@drawable/ic_lightbulb_outline_black_24dp"
+            android:title="Lights" />
+        <item
+            android:id="@+id/itemDoor"
+            android:icon="@drawable/opendoor"
+            android:title="Doors" />
+        <item
+            android:id="@+id/itemCamera"
+            android:icon="@drawable/securitycamera"
+            android:title="Camera" />
+        <item
+            android:id="@+id/itemMode"
+            android:icon="@drawable/night_mode"
+            android:title="Modes" />
+    </group>
+
+</menu>

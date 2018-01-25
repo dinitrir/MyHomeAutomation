@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <!--This is the application bar-->
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:fitsSystemWindows="true"
+        tools:context=".MainActivity">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOVerlay">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </android.support.design.widget.AppBarLayout>
+
+        <!-- This is the content of the activity-->
+        <RelativeLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="?android:attr/actionBarSize"
+            >
+            <!--LivingRoom Light-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:showDividers="end"
+                android:id="@+id/LightLivingRoomItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:paddingLeft="0dp"
+                    android:src="@drawable/ic_lightbulb_outline_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="Living Room"
+                    android:textSize="15sp" />
+
+                <Switch
+                    android:id="@+id/LivingRoomLightSwitch"
+                    android:layout_width="match_parent"
+                    android:width="50dp"
+                    android:layout_height="15dp"
+                    android:paddingRight="15dp" />
+
+            </LinearLayout>
+            <!--divider or separator -->
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/LightLivingRoomItem"
+                android:background="@color/colorPrimaryDark" />
+            <!--Kitchen Light-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/LightLivingRoomItem"
+                android:id="@+id/LightKitchenItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:paddingLeft="0dp"
+                    android:src="@drawable/ic_lightbulb_outline_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="Kitchen"
+                    android:textSize="15sp" />
+
+                <Switch
+                    android:id="@+id/KitchenLightSwitch"
+                    android:layout_width="match_parent"
+                    android:width="50dp"
+                    android:layout_height="15dp"
+                    android:paddingRight="15dp" />
+
+            </LinearLayout>
+            <!--divider or separator -->
+
+            <View
+                android:id="@+id/LightDivider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/LightKitchenItem"
+                android:background="@color/colorPrimaryDark" />
+            <!--Outside Light-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/LightDivider2"
+                android:id="@+id/LightOutsideItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:paddingLeft="0dp"
+                    android:src="@drawable/ic_lightbulb_outline_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="Outside"
+                    android:textSize="15sp" />
+
+                <Switch
+                    android:id="@+id/OutsideLightSwitch"
+                    android:layout_width="match_parent"
+                    android:width="50dp"
+                    android:layout_height="15dp"
+                    android:paddingRight="15dp" />
+
+            </LinearLayout>
+            <!--divider or separator -->
+            <View
+                android:id="@+id/LightDivider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/LightOutsideItem"
+                android:background="@color/colorPrimaryDark" />
+
+            <!--RGB Light trial-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/LightDivider3"
+                android:id="@+id/LightRGBitem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:paddingLeft="0dp"
+                    android:src="@drawable/ic_lightbulb_outline_black_24dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="Choose your color"
+                    android:textSize="15sp"
+                    />
+
+                <Button
+                    android:id="@+id/RGBLightButton"
+                    android:layout_width="wrap_content"
+                    android:text="SET"
+                    android:layout_height="match_parent"
+
+                    android:paddingRight="15dp" />
+                <Button
+                    android:id="@+id/RGBLightButtonOFF"
+                    android:layout_width="wrap_content"
+                    android:text="OFF"
+                    android:layout_height="match_parent"
+                    />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <!-- This is the END of the content of the activity-->
+    </android.support.design.widget.CoordinatorLayout>
+
+
+    <!--This is the END of the application bar-->
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/NavView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer"
+        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/HamburgerMenuItem"
+        android:background="#ffff">
+
+
+    </android.support.design.widget.NavigationView>
+
+</android.support.v4.widget.DrawerLayout>

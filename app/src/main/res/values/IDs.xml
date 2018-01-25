@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <item type="id" name="gateDashboardID" />
+        <item type="id" name="gateSwitchDashboard" />
+        <item type="id" name="layout3" />
+
+</resources>
