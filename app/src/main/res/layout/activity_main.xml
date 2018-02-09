@@ -14,6 +14,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/dashboard_day"
         xmlns:tools="http://schemas.android.com/tools"
         android:fitsSystemWindows="true"
         tools:context=".MainActivity">
@@ -36,115 +37,161 @@
             android:id="@+id/dashboard_relative_layout"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <!-- temperature -->
-            <LinearLayout
-                android:id="@+id/dashboard_temp_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/txt_temperature"
-                    android:layout_width="160dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="100dp"
-                    android:padding="20dp"
-                    android:text="--.- \u2103"
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
-                <!-- Humidity -->
-                <TextView
-                    android:id="@+id/txt_humidity"
-                    android:layout_width="160dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="100dp"
-                    android:layout_toRightOf="@+id/txt_temperature"
-                    android:padding="20dp"
-                    android:text="--.- %"
-                    android:textColor="@color/black"
-                    android:textSize="30sp" />
-            </LinearLayout>
-
-            <!-- Motion detection -->
-            <LinearLayout
-                android:id="@+id/dashboard_motion_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dashboard_temp_layout">
-                <TextView
-                    android:id="@+id/txt_Motion"
-                    android:layout_width="160dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="0dp"
-                    android:padding="20dp"
-                    android:text="No Motion"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-                <TextView
-                    android:id="@+id/txt_Motion_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_toRightOf="@+id/txt_Motion"
-                    android:text="\u2022"
-                    android:textColor="@color/safe_green"
-                    android:textSize="60sp" />
-            </LinearLayout>
-
-            <!-- smoke detection -->
-            <LinearLayout
-                android:id="@+id/dashboard_smoke_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dashboard_motion_layout">
-                <TextView
-                    android:id="@+id/txt_Smoke"
-                    android:layout_width="160dp"
-                    android:layout_height="80dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_below="@+id/txt_Motion"
-                    android:padding="20dp"
-                    android:text="No Smoke"
-                    android:textColor="@color/black"
-                    android:textSize="20sp" />
-                <TextView
-                    android:id="@+id/txt_Smoke_icon"
-                    android:layout_width="40dp"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_below="@+id/txt_Motion_icon"
-                    android:layout_toRightOf="@+id/txt_Smoke"
-                    android:text="\u2022"
-                    android:textColor="@color/safe_green"
-                    android:textSize="60sp" />
-            </LinearLayout>
-        <!-- smoke detection -->
-        <LinearLayout
-            android:id="@+id/dashboard_gas_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/dashboard_smoke_layout">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="35dp">
+            <!--AWAY MODE-->
             <TextView
-                android:id="@+id/txt_Gas"
-                android:layout_width="160dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="0dp"
-                android:layout_below="@+id/txt_Smoke"
-                android:padding="20dp"
-                android:text="No Gas"
-                android:textColor="@color/black"
+                android:id="@+id/txt_away_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txt_temperature"
+                android:layout_alignStart="@+id/txt_Motion"
+                android:layout_marginBottom="14dp"
+                android:background="#80000000"
+                android:padding="5dp"
+                android:gravity="center"
+                android:text="AWAY MODE"
+                android:textColor="@android:color/background_light"
                 android:textSize="20sp" />
+            <Switch
+                android:id="@+id/away_mode_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/txt_humidity"
+                android:layout_alignTop="@+id/txt_away_mode"
+                android:padding="10dp"
+                android:text="OFF"
+                android:textColor="#ffffff"
+                android:switchPadding="7dp"
+                />
+            <!-- temperature -->
             <TextView
-                android:id="@+id/txt_Gas_icon"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="15dp"
-                android:layout_below="@+id/txt_Smoke_icon"
-                android:layout_toRightOf="@+id/txt_Gas"
+                android:id="@+id/txt_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txt_Motion_icon"
+                android:layout_alignStart="@+id/txt_Motion"
+                android:layout_marginStart="18dp"
+                android:background="@drawable/rounded_text_view"
+                android:gravity="center"
+                android:text="--.- \u2103"
+                android:textColor="@android:color/background_light"
+                android:textSize="48sp" />
+                <!-- Humidity -->
+            <TextView
+                android:id="@+id/txt_humidity"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/txt_temperature"
+                android:layout_alignBottom="@+id/txt_temperature"
+                android:layout_toEndOf="@+id/txt_temperature"
+                android:layout_marginLeft="30dp"
+                android:background="@drawable/small_circle"
+                android:text="--.- %"
+                android:textColor="@android:color/background_light"
+                android:textSize="24sp" />
+            <!-- Motion detection -->
+            <TextView
+                android:id="@+id/txt_Motion"
+                android:layout_width="253dp"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txt_Smoke_icon"
+                android:layout_alignStart="@+id/txt_Smoke"
+                android:layout_gravity="left|top"
+                android:background="#80000000"
+                android:padding="10dp"
+                android:text="No Motion"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txt_Motion_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txt_Smoke"
+                android:layout_alignStart="@+id/txt_Smoke_icon"
                 android:text="\u2022"
                 android:textColor="@color/safe_green"
                 android:textSize="60sp" />
-        </LinearLayout>
+
+            <!-- smoke detection -->
+            <TextView
+                android:id="@+id/txt_Smoke"
+                android:layout_width="253dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/txt_Smoke_icon"
+                android:layout_alignStart="@+id/txt_Gas"
+                android:layout_marginBottom="15dp"
+                android:background="#80000000"
+                android:padding="10dp"
+                android:text="No Smoke"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txt_Smoke_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_above="@+id/txt_Gas"
+                android:layout_alignStart="@+id/txt_Gas_icon"
+                android:text="\u2022"
+                android:textColor="@color/safe_green"
+                android:textSize="60sp" />
+
+        <!-- CO detection -->
+            <TextView
+                android:id="@+id/txt_Gas"
+                android:layout_width="253dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/txt_door_access"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="63dp"
+                android:background="#80000000"
+                android:padding="10dp"
+                android:text="No Carbon Monoxide"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txt_Gas_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/txt_Gas"
+                android:layout_alignTop="@+id/txt_Gas"
+                android:layout_marginEnd="17dp"
+                android:layout_marginTop="-16dp"
+                android:text="\u2022"
+                android:textColor="@color/safe_green"
+                android:textSize="60sp" />
+            <!-- Door Access -->
+            <TextView
+                android:id="@+id/txt_door_access"
+                android:layout_width="253dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/txt_Gas"
+                android:layout_marginBottom="35dp"
+                android:text="Door Closed"
+                android:padding="10dp"
+                android:background="#80000000"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/txt_DoorAcces_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignStart="@+id/txt_Gas_icon"
+                android:layout_marginBottom="16dp"
+                android:text="\u2022"
+                android:textColor="@color/safe_green"
+                android:textSize="60sp" />
+
+
 
 
         </RelativeLayout>

@@ -14,27 +14,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-public class Mode extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class Mode extends AppCompatActivity{
+
     ActionBarDrawerToggle toggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode);
 
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer =(DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this,drawer,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-
-        drawer.addDrawerListener(toggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.NavView);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
+        HamburgerMenu HamMenu= new HamburgerMenu(Mode.this);
+        toggle= HamMenu.getToggle();
     }
 
     @Override
@@ -66,32 +56,4 @@ public class Mode extends AppCompatActivity implements NavigationView.OnNavigati
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean onNavigationItemSelected(MenuItem item){
-        int id = item.getItemId();
-
-        if(id == R.id.itemDashboard){
-            Intent searchIntent = new Intent(Mode.this, MainActivity.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }else if(id == R.id.itemLight){
-            Intent searchIntent = new Intent(Mode.this, Light.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }else if(id == R.id.itemDoor){
-            Intent searchIntent = new Intent(Mode.this, Door.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }else if(id == R.id.itemCamera) {
-            Intent searchIntent = new Intent(Mode.this, Camera.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }else if(id == R.id.itemMode) {
-            Intent searchIntent = new Intent(Mode.this, Mode.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 }

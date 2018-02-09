@@ -39,31 +39,22 @@ import org.eclipse.paho.client.mqttv3.MqttTopic;
 import org.eclipse.paho.client.mqttv3.internal.ClientComms;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
     ActionBarDrawerToggle toggle;
     public MqttAndroidClient client=null;
     public TextView temperature_text,humidity_text,motion_text,motion_icon,smoke_text,smoke_icon,gas_text,gas_icon;
     public Switch ButtonGateSwitch;
     public static String motionStatus="idle";
+    final String[] topicSub={"homeautomationtemperaturehumiditysensor/dhtsensor","homeautomationmotionsensor/pirsensor","homeautomationmotor/gatestatus","homeautomationsmokesensor/mq2sensor","homeautomationcosensor/mq7sensor"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar=(Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer =(DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this,drawer,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-
-        drawer.addDrawerListener(toggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.NavView);
-        navigationView.setNavigationItemSelectedListener(this);
+        HamburgerMenu HamMenu= new HamburgerMenu(MainActivity.this);
+        toggle= HamMenu.getToggle();
 
         temperature_text= new TextView(this.getApplicationContext());
         humidity_text= new TextView(this.getApplicationContext());
@@ -83,54 +74,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         gas_text=(TextView) findViewById(R.id.txt_Gas);
         gas_icon=(TextView) findViewById(R.id.txt_Gas_icon);
 
-        /////// For the MQTT connection
-        String clientId = MqttClient.generateClientId();
-        client =
-                new MqttAndroidClient(this.getApplicationContext(), Broker.broker,
-                        clientId);
-        try {
+        MQTTConnectionToActivity connection = new MQTTConnectionToActivity(MainActivity.this,topicSub);
+        client= connection.getClient();
 
-                IMqttToken token = client.connect();
-                token.setActionCallback(new IMqttActionListener(){
-                    @Override
-                    public void onSuccess(IMqttToken asyncActionToken){
-                        // connected
-                        Toast.makeText(MainActivity.this, "Connected ", Toast.LENGTH_SHORT).show();
-                        String[] topic={"homeautomationtemperaturehumiditysensor/dhtsensor","homeautomationmotionsensor/pirsensor","homeautomationmotor/gatestatus","homeautomationsmokesensor/mq2sensor","homeautomationcosensor/mq7sensor"};
-                        for(int i=0;i<topic.length;i++){
-                            SubscribeToTopic(topic[i]);//subscribe to topic
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    // connection failed
-                    Toast.makeText(MainActivity.this, "Failed ! ", Toast.LENGTH_SHORT).show();
-                }
-                });
+        client.setCallback(new MqttCallback() {
+            @Override
+            public void connectionLost(Throwable cause) {
 
             }
-            catch (MqttException e) {
-                 e.printStackTrace();
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
+                HandleMessage(topic,message);
             }
 
-            client.setCallback(new MqttCallback() {
-                @Override
-                public void connectionLost(Throwable cause) {
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
 
                 }
-
-                @Override
-                public void messageArrived(String topic, MqttMessage message) throws Exception {
-                    HandleMessage(topic,message);
-                }
-
-                @Override
-                public void deliveryComplete(IMqttDeliveryToken token) {
-
-                }
-            });
+        });
 
 
 
@@ -164,47 +126,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public boolean onNavigationItemSelected(MenuItem item){
-        int id = item.getItemId();
-
-        if(id == R.id.itemDashboard){
-            Intent searchIntent = new Intent(MainActivity.this, MainActivity.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }else if(id == R.id.itemLight){
-            Intent searchIntent = new Intent(MainActivity.this, Light.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }else if(id == R.id.itemDoor){
-            Intent searchIntent = new Intent(MainActivity.this, Door.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }else if(id == R.id.itemCamera) {
-            Intent searchIntent = new Intent(MainActivity.this, Camera.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }else if(id == R.id.itemMode) {
-            Intent searchIntent = new Intent(MainActivity.this, Mode.class);
-            startActivity(searchIntent);
-            overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-        }
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    public void SubscribeToTopic(String topic){
-        try{
-            client.subscribe(topic,0);
-        }
-        catch (MqttSecurityException e) {
-            e.printStackTrace();
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-
     }
 
     @SuppressLint("SetTextI18n")

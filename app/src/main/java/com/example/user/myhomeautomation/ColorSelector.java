@@ -38,38 +38,16 @@ public class ColorSelector extends AppCompatActivity implements ColorPickerView.
     public static int greenNew;
     public static int blueNew;
     public MqttAndroidClient client=null;
+    MQTTConnectionToActivity connection;
+    final String[] topicSub=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colorselector);
 
-        //For the MQTT connection
-        String clientId = MqttClient.generateClientId();
-        client =
-                new MqttAndroidClient(this.getApplicationContext(), Broker.broker,
-                        clientId);
-
-        try {
-            IMqttToken token = client.connect();
-            token.setActionCallback(new IMqttActionListener(){
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken){
-                    // connected
-                    Toast.makeText(ColorSelector.this, "Connected ", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    // connection failed
-                    Toast.makeText(ColorSelector.this, "Failed ! ", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-
+        //MQTT Connection
+        connection= new MQTTConnectionToActivity(ColorSelector.this,topicSub);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         int initialColor = prefs.getInt("color_3", 0xFF000000);
@@ -94,41 +72,22 @@ public class ColorSelector extends AppCompatActivity implements ColorPickerView.
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(ColorSelector.this).edit();
                 edit.putInt("color_3", mColorPickerView.getColor());
                 edit.commit();
+
                 //converting color to rgb
                 String white = "#ffffff";
                 int whiteInt = Color.parseColor(white);
                 removeAlpha(mColorPickerView.getColor(),whiteInt);
+
                 //passing color  rgb code as string
                 String content= Integer.toString(ColorSelector.redNew)+","+Integer.toString(ColorSelector.greenNew)+","+Integer.toString(ColorSelector.blueNew);
                 String topic = "homeautomationledlight/rgb";
-                int qos=0;//quality of service
 
                 MemoryPersistence persistence = new MemoryPersistence();
-
-                try {
-                    //MqttClient sampleClient = new MqttClient(broker, clientId, persistence);
-                    //MqttConnectOptions connOpts = new MqttConnectOptions();
-                    //connOpts.setCleanSession(true);
-                    //System.out.println("Connecting to broker: "+broker);
-                    //sampleClient.connect(connOpts);
-                    //System.out.println("Connected");
-                    //System.out.println("Publishing message: "+content);
-                    MqttMessage message = new MqttMessage(content.getBytes());
-                    message.setQos(qos);
-                    client.publish(topic, message);
-                    System.out.println("Message published :"+content);
-
-                } catch(MqttException me) {
-                    System.out.println("reason "+me.getReasonCode());
-                    System.out.println("msg "+me.getMessage());
-                    System.out.println("loc "+me.getLocalizedMessage());
-                    System.out.println("cause "+me.getCause());
-                    System.out.println("excep "+me);
-                    me.printStackTrace();
-                }
+                connection.PublishToTopic(topic,content);
                 finish();
             }
         });
