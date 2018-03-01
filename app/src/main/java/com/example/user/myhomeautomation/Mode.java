@@ -1,22 +1,26 @@
 package com.example.user.myhomeautomation;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+
 
 public class Mode extends AppCompatActivity{
 
     ActionBarDrawerToggle toggle;
+    Button AddNewScenes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +29,36 @@ public class Mode extends AppCompatActivity{
 
         HamburgerMenu HamMenu= new HamburgerMenu(Mode.this);
         toggle= HamMenu.getToggle();
+
+        //Database/////
+        //////////////
+        /////////////
+        ArrayList<String> scenes= new ArrayList<String>();
+        scenes.add("night");scenes.add("out");scenes.add("lazy");
+
+        CustomListviewAdapter sceneAdapter = new CustomListviewAdapter(Mode.this,scenes);
+        ListView sceneListView =(ListView) findViewById(R.id.mode_listview);
+        sceneListView.setAdapter(sceneAdapter);
+
+
+        sceneListView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String txt=String.valueOf(parent.getItemAtPosition(position));
+                        Toast.makeText(Mode.this, txt, Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        AddNewScenes = (Button) findViewById(R.id.add_listview_item_btn);
+        AddNewScenes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent = new Intent(Mode.this, NewMode.class);
+                startActivity(searchIntent);
+            }
+        });
     }
 
     @Override

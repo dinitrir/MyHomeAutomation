@@ -43,6 +43,8 @@
         <activity android:name=".ColorSelector"
             android:label="Color picker"/>
 
+        <activity android:name=".NewMode"
+            android:label="New Mode"/>
 
     </application>
 

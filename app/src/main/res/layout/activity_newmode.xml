@@ -1,0 +1,314 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Set Preferred Settings"
+        android:textSize="30sp"
+        android:layout_margin="10dp"/>
+
+    <!-- Name -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:showDividers="end"
+       >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Name "
+            android:textSize="15sp" />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ModeName"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+
+
+    </LinearLayout>
+    <!--divider or separator -->
+    <View
+        android:id="@+id/dividerr1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/LightLivingRoomItem"
+        android:background="@color/colorPrimaryDark" />
+    <!--LivingRoom Light-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:showDividers="end"
+        android:id="@+id/LightLivingRoomItemMode">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingLeft="0dp"
+            android:src="@drawable/ic_lightbulb_outline_black_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Living Room"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/LivingRoomLightSwitchMode"
+            android:layout_width="match_parent"
+            android:width="50dp"
+            android:layout_height="15dp"
+            android:paddingRight="15dp" />
+
+    </LinearLayout>
+    <!--divider or separator -->
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/LightLivingRoomItem"
+        android:background="@color/colorPrimaryDark" />
+    <!--Kitchen Light-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/LightLivingRoomItem"
+        android:id="@+id/LightKitchenItemMode">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingLeft="0dp"
+            android:src="@drawable/ic_lightbulb_outline_black_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Kitchen"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/KitchenLightSwitchMode"
+            android:layout_width="match_parent"
+            android:width="50dp"
+            android:layout_height="15dp"
+            android:paddingRight="15dp" />
+
+    </LinearLayout>
+    <!--divider or separator -->
+
+    <View
+        android:id="@+id/LightDivider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/LightKitchenItem"
+        android:background="@color/colorPrimaryDark" />
+    <!--Outside Light-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/LightDivider2"
+        android:id="@+id/LightOutsideItemMode">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingLeft="0dp"
+            android:src="@drawable/ic_lightbulb_outline_black_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:text="Outside"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/OutsideLightSwitchMode"
+            android:layout_width="match_parent"
+            android:width="50dp"
+            android:layout_height="15dp"
+            android:paddingRight="15dp" />
+
+    </LinearLayout>
+    <!--divider or separator -->
+    <View
+        android:id="@+id/LightDivider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/LightOutsideItem"
+        android:background="@color/colorPrimaryDark" />
+
+    <!--RGB Light trial-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/LightDivider3"
+        android:id="@+id/LightRGBitemMode">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingLeft="0dp"
+            android:src="@drawable/ic_lightbulb_outline_black_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingRight="115dp"
+            android:text="Choose your color"
+            android:textSize="15sp"
+            />
+
+        <Button
+            android:id="@+id/RGBLightButtonMode"
+            android:layout_width="wrap_content"
+            android:text="SET"
+            android:layout_height="match_parent"
+
+            android:paddingRight="15dp" />
+        <Button
+            android:id="@+id/RGBLightButtonOFFMode"
+            android:layout_width="wrap_content"
+            android:text="OFF"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+    <!--divider or separator -->
+    <View
+        android:id="@+id/LightDivider3mode"
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/LightRGBitem"
+        android:background="@color/colorPrimaryDark" />
+
+    <!--Gate switch-->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:showDividers="end"
+        android:id="@+id/GateSwitchItemMode">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingLeft="0dp"
+            android:src="@drawable/pointed_fence_yard" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="Gate"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/GateSwitchMode"
+            android:layout_width="match_parent"
+            android:width="50dp"
+            android:layout_height="15dp"
+            android:paddingRight="15dp" />
+
+    </LinearLayout>
+    <!--divider or separator -->
+    <View
+        android:id="@+id/divider1gate"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/GateSwitchItem"
+        android:background="@color/colorPrimaryDark" />
+
+    <!--Timer -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:showDividers="end"
+        android:id="@+id/TimerItemMode">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingLeft="0dp"
+            android:src="@drawable/ic_access_time_black_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:text="Set Time To Activate Mode (Optional)"
+            android:textSize="15sp" />
+
+        <!--Switch
+            android:id="@+id/GateSwitchMode"
+            android:layout_width="match_parent"
+            android:width="50dp"
+            android:layout_height="15dp"
+            android:paddingRight="15dp" /-->
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonbar"
+        style="@android:style/ButtonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+
+        <Button
+            android:id="@+id/okButtonMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@android:string/ok" />
+
+        <Button
+            android:id="@+id/cancelButtonMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@android:string/cancel"  />
+    </LinearLayout>
+
+</LinearLayout>

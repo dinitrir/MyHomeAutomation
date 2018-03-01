@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="2dp"
+    >
+
+    <ImageView
+        android:id="@+id/mode_pic"
+        android:layout_width="75dp"
+        android:layout_height="35dp"
+        android:src="@drawable/night_mode"
+        android:contentDescription="desc"
+        android:layout_margin="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
+
+    <TextView
+        android:id="@+id/mode_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/mode_pic"
+        android:paddingBottom="10dp"
+        android:text="txt"
+        android:textSize="20sp" />
+
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/mode_name"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBaseline="@id/mode_name"
+        android:layout_marginRight="15dp"
+        android:focusable="false"/>
+
+</RelativeLayout>

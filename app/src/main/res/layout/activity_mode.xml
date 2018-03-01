@@ -35,16 +35,26 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
+            <ListView
+                android:id="@+id/mode_listview"
+                android:layout_marginTop="60dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Modes"
-                android:textColor="@color/black"
-                android:padding="20dp"
-                android:textSize="30sp"
-                android:layout_marginTop="100dp" />
+                android:layout_height="wrap_content"
+                />
+
+            <Button
+                android:id="@+id/add_listview_item_btn"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_below="@id/mode_listview"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:text="ADD NEW SCENES">
+
+            </Button>
+
 
         </RelativeLayout>
         <!--This is the END of the Content of the activity-->
