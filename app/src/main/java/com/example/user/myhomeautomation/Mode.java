@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class Mode extends AppCompatActivity{
 
     ActionBarDrawerToggle toggle;
     Button AddNewScenes;
+    public static Switch s;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +34,9 @@ public class Mode extends AppCompatActivity{
 
         //Database/////
         //////////////
+        TheDBHandler dbh = new TheDBHandler(this,null,null,1);
         /////////////
-        ArrayList<String> scenes= new ArrayList<String>();
-        scenes.add("night");scenes.add("out");scenes.add("lazy");
+        ArrayList<String> scenes= dbh.getAllSceneNamefromDB();
 
         CustomListviewAdapter sceneAdapter = new CustomListviewAdapter(Mode.this,scenes);
         ListView sceneListView =(ListView) findViewById(R.id.mode_listview);
@@ -45,8 +47,15 @@ public class Mode extends AppCompatActivity{
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        String txt=String.valueOf(parent.getItemAtPosition(position));
-                        Toast.makeText(Mode.this, txt, Toast.LENGTH_SHORT).show();
+
+                        long viewID=view.getId();
+                        if(viewID==position) {
+                            String txt = String.valueOf(parent.getItemAtPosition(position));
+                            Toast.makeText(Mode.this, txt, Toast.LENGTH_SHORT).show();
+                        }
+
+                       // Toast.makeText(Mode.this, txt, Toast.LENGTH_SHORT).show();
+
                     }
                 }
         );

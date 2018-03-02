@@ -29,7 +29,7 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 public class Door extends AppCompatActivity {
 
     ActionBarDrawerToggle toggle;
-    public Switch ButtonGateSwitch;
+    public Switch ButtonGateSwitch,ButtonShutterSwitch;
     final String[] topicSub=null;
     //mqtt components
     public MqttAndroidClient client=null;
@@ -53,6 +53,25 @@ public class Door extends AppCompatActivity {
                 String topic = "homeautomationmotor/gate";
                 if(isChecked){
                    connection.PublishToTopic(topic,"open");
+                }
+                else{
+                    connection.PublishToTopic(topic,"close");
+                }
+
+            }
+
+
+
+        });
+
+        //Shutter switch
+        ButtonShutterSwitch= (Switch) findViewById(R.id.ShutterSwitch);
+        ButtonShutterSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String topic = "homeautomationmotor/shutter";
+                if(isChecked){
+                    connection.PublishToTopic(topic,"open");
                 }
                 else{
                     connection.PublishToTopic(topic,"close");

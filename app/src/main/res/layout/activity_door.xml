@@ -79,6 +79,40 @@
                 android:layout_below="@+id/GateSwitchItem"
                 android:background="@color/colorPrimaryDark" />
 
+            <!--Shutter switch-->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:layout_below="@+id/GateSwitchItem"
+                android:showDividers="end"
+                android:id="@+id/ShutterSwitchItem">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:paddingLeft="0dp"
+                    android:src="@drawable/roller_shutter_door" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="Shutter"
+                    android:textSize="15sp" />
+
+                <Switch
+                    android:id="@+id/ShutterSwitch"
+                    android:layout_width="match_parent"
+                    android:width="50dp"
+                    android:layout_height="15dp"
+                    android:paddingRight="15dp" />
+
+            </LinearLayout>
+            <!--divider or separator -->
+
         </RelativeLayout>
         <!-- This is the END of the content of the activity-->
     </android.support.design.widget.CoordinatorLayout>
