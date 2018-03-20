@@ -11,10 +11,6 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 
-/**
- * Created by User on 2/9/2018.
- */
-
 public class MQTTConnectionToActivity {
 
     AppCompatActivity CurrentActivity;

@@ -8,7 +8,8 @@ public class Scenes {
     private String _RGBlight;
     private String _gate;
     private String _shutter;
-    private String _timeToAcivate;
+    private String _timeToActivate;
+    private String _status;
 
     public Scenes(){}
 
@@ -41,10 +42,11 @@ public class Scenes {
         return _shutter;
     }
 
-    public String get_timeToAcivate() {
-        return _timeToAcivate;
+    public String get_timeToActivate() {
+        return _timeToActivate;
     }
 
+    public String get_status() { return _status; }
     //Setters
 
     public void set_sceneName(String _sceneName) {
@@ -75,7 +77,11 @@ public class Scenes {
         this._shutter = _shutter;
     }
 
-    public void set_timeToAcivate(String _timeToAcivate) {
-        this._timeToAcivate = _timeToAcivate;
+    public void set_timeToActivate(String _timeToActivate) {
+        this._timeToActivate = _timeToActivate;
+    }
+
+    public void set_status(String _status) {
+        this._status = _status;
     }
 }

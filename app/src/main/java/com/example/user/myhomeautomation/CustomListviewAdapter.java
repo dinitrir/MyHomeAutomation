@@ -30,17 +30,11 @@ public class CustomListviewAdapter extends ArrayAdapter<String>{
         String scene = getItem(position);
         TextView sceneName=(TextView) customView.findViewById(R.id.mode_name);
         ImageView sceneImage= (ImageView) customView.findViewById(R.id.mode_pic);
-        Switch sceneSwith=(Switch)customView.findViewById(R.id.mode_switch);
+
 
         sceneName.setText(scene);
         sceneImage.setImageResource(R.drawable.night_mode);
-        sceneSwith.setId(position);
-        sceneSwith.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                ((ListView) parent).performItemClick(buttonView,position,getItemId(position));
-            }
-        });
+
         return customView;
     }
 

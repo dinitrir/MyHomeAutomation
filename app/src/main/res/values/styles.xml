@@ -16,5 +16,8 @@
     <style name="AppTheme.AppBarOVerlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-
+    <style name="PopupMenu" parent="@android:style/Widget.Material.Light.PopupMenu.Overflow">
+        <item name="android:popupBackground">#000</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

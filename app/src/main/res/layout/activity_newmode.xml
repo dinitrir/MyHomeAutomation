@@ -1,7 +1,55 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    tools:context=".NewMode">
+
+    <!--This is the application bar-->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/newmodeappbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOVerlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:textSize="30sp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentStart="true"
+                    />
+                <Switch
+                    android:id="@+id/status_mode_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    />
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.Toolbar>
+
+
+    </android.support.design.widget.AppBarLayout>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="?android:attr/actionBarSize"
+    >
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -191,20 +239,24 @@
             android:text="Choose your color"
             android:textSize="15sp"
             />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/RGBLightButtonMode"
+                android:layout_width="wrap_content"
+                android:text="SET"
+                android:layout_height="match_parent"
+                android:paddingRight="15dp" />
+            <Button
+                android:id="@+id/RGBLightButtonOFFMode"
+                android:layout_width="wrap_content"
+                android:text="OFF"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                />
+        </RelativeLayout>
 
-        <Button
-            android:id="@+id/RGBLightButtonMode"
-            android:layout_width="wrap_content"
-            android:text="SET"
-            android:layout_height="match_parent"
-
-            android:paddingRight="15dp" />
-        <Button
-            android:id="@+id/RGBLightButtonOFFMode"
-            android:layout_width="wrap_content"
-            android:text="OFF"
-            android:layout_height="match_parent"
-            />
     </LinearLayout>
     <!--divider or separator -->
     <View
@@ -256,7 +308,7 @@
         android:layout_below="@+id/GateSwitchItem"
         android:background="@color/colorPrimaryDark" />
 
-    <!--Timer -->
+    <!--Shutter switch-->
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
@@ -264,27 +316,74 @@
         android:paddingLeft="20dp"
         android:paddingTop="10dp"
         android:showDividers="end"
-        android:id="@+id/TimerItemMode">
+        android:id="@+id/ShutterSwitchItemMode">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:paddingLeft="0dp"
+            android:src="@drawable/roller_shutter_door" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="Shutter"
+            android:textSize="15sp" />
+
+        <Switch
+            android:id="@+id/ShutterSwitchMode"
+            android:layout_width="match_parent"
+            android:width="50dp"
+            android:layout_height="15dp"
+            android:paddingRight="15dp" />
+
+    </LinearLayout>
+    <!--divider or separator -->
+    <View
+        android:id="@+id/divider1shutter"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ShutterSwitchItem"
+        android:background="@color/colorPrimaryDark" />
+
+    <!--Timer -->
+    <LinearLayout
+        android:id="@+id/TimerItemMode"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:showDividers="end">
 
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:paddingLeft="0dp"
             android:src="@drawable/ic_access_time_black_24dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:text="Set Time To Activate Mode (Optional)"
-            android:textSize="15sp" />
-
-        <!--Switch
-            android:id="@+id/GateSwitchMode"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:width="50dp"
-            android:layout_height="15dp"
-            android:paddingRight="15dp" /-->
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:text="Activation Time"
+                android:layout_centerVertical="true"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_time_mode"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="SET TIME"
+
+                />
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -312,3 +411,5 @@
     </LinearLayout>
 
 </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>

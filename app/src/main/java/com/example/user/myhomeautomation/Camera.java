@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 /**
  * Created by User on 08/12/2017.
@@ -27,6 +28,10 @@ public class Camera extends AppCompatActivity {
         HamburgerMenu HamMenu= new HamburgerMenu(Camera.this);
         toggle= HamMenu.getToggle();
 
+        TextView t=(TextView)findViewById(R.id.table);
+
+        TheDBHandler mdh =new TheDBHandler(Camera.this,null,null,2);
+        mdh.display(t);
 
     }
 

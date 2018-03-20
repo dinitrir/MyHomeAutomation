@@ -100,6 +100,7 @@ public class Light extends AppCompatActivity {
         rgbledsettter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ColorSelector.sourceClass="Light";
                 Intent searchIntent = new Intent(Light.this, ColorSelector.class);
                 startActivity(searchIntent);
             }

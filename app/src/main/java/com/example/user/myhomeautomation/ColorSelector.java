@@ -5,27 +5,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
 import com.github.danielnilsson9.colorpickerview.view.ColorPanelView;
 import com.github.danielnilsson9.colorpickerview.view.ColorPickerView;
-
 import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
-/**
- * Created by User on 12/15/2017.
- */
 
 public class ColorSelector extends AppCompatActivity implements ColorPickerView.OnColorChangedListener{
 
@@ -40,17 +27,28 @@ public class ColorSelector extends AppCompatActivity implements ColorPickerView.
     public MqttAndroidClient client=null;
     MQTTConnectionToActivity connection;
     final String[] topicSub=null;
+
+    //source class identifier
+    public static String sourceClass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colorselector);
 
-        //MQTT Connection
-        connection= new MQTTConnectionToActivity(ColorSelector.this,topicSub);
+        int initialColor=0xFF000000, initialColor_mode=0xFF000000;
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        int initialColor = prefs.getInt("color_3", 0xFF000000);
+        if(sourceClass=="Light") {
+            //MQTT Connection
+            connection = new MQTTConnectionToActivity(ColorSelector.this, topicSub);
+            //Preferences
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            initialColor = prefs.getInt("color_3", 0xFF000000);
+        }
+        else{
+            SharedPreferences Mode_prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            initialColor_mode = Mode_prefs.getInt("color_mode_3", 0xFF000000);
+        }
 
         mColorPickerView = (ColorPickerView) findViewById(R.id.colorpickerview__color_picker_view);
         mOldColorPanelView = (ColorPanelView) findViewById(R.id.colorpickerview__color_panel_old);
@@ -66,16 +64,29 @@ public class ColorSelector extends AppCompatActivity implements ColorPickerView.
 
 
         mColorPickerView.setOnColorChangedListener(this);
-        mColorPickerView.setColor(initialColor, true);
-        mOldColorPanelView.setColor(initialColor);
 
+       if(sourceClass=="Light") {
+           mColorPickerView.setColor(initialColor, true);
+           mOldColorPanelView.setColor(initialColor);
+       }else{
+           mColorPickerView.setColor(initialColor_mode, true);
+           mOldColorPanelView.setColor(initialColor_mode);
+       }
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(ColorSelector.this).edit();
-                edit.putInt("color_3", mColorPickerView.getColor());
-                edit.commit();
+                if(sourceClass=="Light") {
+
+                    SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(ColorSelector.this).edit();
+                    edit.putInt("color_3", mColorPickerView.getColor());
+                    edit.commit();
+
+                }else{
+                    SharedPreferences.Editor editmode = PreferenceManager.getDefaultSharedPreferences(ColorSelector.this).edit();
+                    editmode.putInt("color_mode_3", mColorPickerView.getColor());
+                    editmode.commit();
+                }
 
                 //converting color to rgb
                 String white = "#ffffff";
@@ -86,8 +97,12 @@ public class ColorSelector extends AppCompatActivity implements ColorPickerView.
                 String content= Integer.toString(ColorSelector.redNew)+","+Integer.toString(ColorSelector.greenNew)+","+Integer.toString(ColorSelector.blueNew);
                 String topic = "homeautomationledlight/rgb";
 
-                MemoryPersistence persistence = new MemoryPersistence();
-                connection.PublishToTopic(topic,content);
+                if(sourceClass=="Light") {
+                    connection.PublishToTopic(topic, content);
+                }
+                else{
+                    NewMode.RGBValue=content;
+                }
                 finish();
             }
         });
