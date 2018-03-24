@@ -1,30 +1,18 @@
 package com.example.user.myhomeautomation;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
-
 import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-
-/**
- * Created by User on 08/12/2017.
- */
 
 public class Door extends AppCompatActivity {
 
@@ -44,6 +32,25 @@ public class Door extends AppCompatActivity {
 
         //MQTT Connection
         connection= new MQTTConnectionToActivity(Door.this,topicSub);
+        connection.PublishToTopic("homeautomationstatuses","opensactivity");
+        client=connection.getClient();
+
+        client.setCallback(new MqttCallback() {
+            @Override
+            public void connectionLost(Throwable cause) {
+
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
+                HandleMessage(topic,message);
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken token) {
+
+            }
+        });
 
         //Gate switch
         ButtonGateSwitch= (Switch) findViewById(R.id.GateSwitch);
@@ -111,6 +118,14 @@ public class Door extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void HandleMessage(String topic, MqttMessage message){
+        String msg= new String(message.getPayload());
+        String[] buttonStatus=msg.split("|");
+        ButtonGateSwitch.setChecked(buttonStatus[3].equals("on")?true:false);
+        ButtonShutterSwitch.setChecked(buttonStatus[4].equals("on")?true:false);
+
     }
 
 }
