@@ -1,6 +1,9 @@
 package com.example.user.myhomeautomation;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +17,17 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import org.eclipse.paho.android.service.MqttAndroidClient;
 import java.util.Calendar;
+import java.util.Objects;
 
 public class NewMode extends AppCompatActivity {
 
     public static boolean NewMode;
     public static String Scene_Name;
+    static Calendar alarmCalender;
 
-    //for color selector
+    //for color selector activity
     public static String RGBValue="0,0,0";
 
     //widgets on activity
@@ -34,10 +40,16 @@ public class NewMode extends AppCompatActivity {
     public static String livingLightState, kitchenLightState,OutsideLightState;
     public static String gateState,shutterState,StatusState;
 
+    final String[] topicSub=null;//for mqtt
+
+    MQTTConnectionToActivity connection;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newmode);
+
+        connection= new MQTTConnectionToActivity(NewMode.this,topicSub);
 
         livingRoom= (Switch) findViewById(R.id.LivingRoomLightSwitchMode);
         kitchen= (Switch) findViewById(R.id.KitchenLightSwitchMode);
@@ -55,8 +67,9 @@ public class NewMode extends AppCompatActivity {
         txt_modeName=(EditText)findViewById(R.id.ModeName);
 
         setTIME=(Button)findViewById(R.id.btn_time_mode);
+        setTIME.setText("SET TIME");
 
-        Scenes s;
+        Scenes s;//Creating Database instance
         final TheDBHandler mdh = new TheDBHandler(this,null,null,3);
 
         if(NewMode!=true){//if activity is accessed from listview
@@ -71,8 +84,8 @@ public class NewMode extends AppCompatActivity {
             if (s.get_lightLivingRoom().equals("on")) {livingRoom.setChecked(true);}
             if (s.get_lightKitchen().equals("on")) {kitchen.setChecked(true);}
             if (s.get_lightOutside().equals("on")) {Outside.setChecked(true);}
-            if (s.get_gate().equals("on")) {gate.setChecked(true);}
-            if (s.get_shutter().equals("on")) {shutter.setChecked(true);}
+            if (s.get_gate().equals("open")) {gate.setChecked(true);}
+            if (s.get_shutter().equals("open")) {shutter.setChecked(true);}
             if (s.get_status().equals("Activated")) {status.setChecked(true);}
 
         }
@@ -102,19 +115,16 @@ public class NewMode extends AppCompatActivity {
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 livingLightState=(livingRoom.isChecked()?"on":"off");
                 kitchenLightState=(kitchen.isChecked()?"on":"off");
                 OutsideLightState=(Outside.isChecked()?"on":"off");
-                gateState=(gate.isChecked()?"on":"off");
-                shutterState=(shutter.isChecked()?"on":"off");
+                gateState=(gate.isChecked()?"open":"close");
+                shutterState=(shutter.isChecked()?"open":"close");
 
                 status.setClickable(true);
+
                 //Custom dialog handler
-
                 ActivatingModeAlertHandler(mdh);
-
-
             }
         });
 
@@ -128,16 +138,24 @@ public class NewMode extends AppCompatActivity {
         setTIME.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int hour=calendar.get(Calendar.HOUR);
-                int minute=calendar.get(Calendar.MINUTE);
-                TimePickerDialog activationTime =
-                        new TimePickerDialog(NewMode.this, new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                                setTIME.setText(hourOfDay+":"+minute);
-                            }
-                        },hour,minute,true);
+           final Calendar calendar = Calendar.getInstance();
+
+           int hour=calendar.get(Calendar.HOUR);
+           int minute=calendar.get(Calendar.MINUTE);
+           TimePickerDialog activationTime =
+               new TimePickerDialog(NewMode.this, new TimePickerDialog.OnTimeSetListener() {
+                   @Override
+                   public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                      setTIME.setText(hourOfDay+":"+minute);//set text of button to time chosen
+                      alarmCalender=calendar;
+                      alarmCalender.set(
+                              calendar.get(Calendar.YEAR),
+                              calendar.get(Calendar.MONTH),
+                              calendar.get(Calendar.DAY_OF_MONTH),
+                      hourOfDay, minute, 0);
+                    }
+               },hour,minute,true);
+
                 activationTime.show();
             }
         });
@@ -145,13 +163,20 @@ public class NewMode extends AppCompatActivity {
         status.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked==true){
-                    ActivatingModeAlertHandler(mdh);
-                }
-                else{
-                    Toast.makeText(NewMode.this,txt_modeName.getText()
-                            +" mode off ",Toast.LENGTH_SHORT).show();
-                    //mqtt publish
+           if(isChecked==true){
+              ActivatingModeAlertHandler(mdh);
+           }
+           else{
+               Toast.makeText(NewMode.this,txt_modeName.getText()
+               +" mode off ",Toast.LENGTH_SHORT).show();
+
+               connection.PublishToTopic("homeautomationledlight/livingroom","off");
+               connection.PublishToTopic("homeautomationledlight/kitchen","off");
+               connection.PublishToTopic("homeautomationledlight/outside","off");
+               connection.PublishToTopic("homeautomationledlight/rgb","0,0,0");
+               connection.PublishToTopic("homeautomationmotor/gate","close");
+               connection.PublishToTopic("homeautomationmotor/shutter","close");
+               finish();
                 }
             }
         });
@@ -160,46 +185,63 @@ public class NewMode extends AppCompatActivity {
     public void ActivatingModeAlertHandler(final TheDBHandler mdh){
         AlertDialog.Builder AlertBuilder= new AlertDialog.Builder(NewMode.this);
         AlertBuilder.setMessage("Do you want to activate mode before exit ?")
-                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+           .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        AlertDialog.Builder AlertActivateMode= new AlertDialog.Builder(NewMode.this);
-                        AlertActivateMode.setMessage("Activating this mode will override the other settings ?")
-                                .setPositiveButton("ACTIVATE", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        //mqtt publish
-                                        Toast.makeText(NewMode.this,txt_modeName.getText()
-                                                +" mode Activated !",Toast.LENGTH_SHORT).show();
-                                        NewMode.this.finish();
-                                        status.setChecked(true);
-                                        StatusState="Activated";
-                                        setTIME.setText("SET TiME");
-                                        exec(mdh);
-                                        finish();
-                                        Intent searchIntent = new Intent(NewMode.this, Mode.class);
-                                        startActivity(searchIntent);
-                                    }
-                                }).setNegativeButton("CANCEL",null);
+             public void onClick(DialogInterface dialog, int which) {
+               AlertDialog.Builder AlertActivateMode= new AlertDialog.Builder(NewMode.this);
+               AlertActivateMode.setMessage("Activating this mode will override the other settings ?")
+                    .setPositiveButton("ACTIVATE", new DialogInterface.OnClickListener() {
+                     @Override //Activate mode immediately
+                     public void onClick(DialogInterface dialog, int which) {
+                        //MQTT Connection
+                        MQTTConnectionToActivity connection;
+                        connection= new MQTTConnectionToActivity(NewMode.this,topicSub);
+                        if(connection.isConnectionGood()==true){
+                             connection.PublishToTopic("homeautomationledlight/livingroom",livingLightState);
+                             connection.PublishToTopic("homeautomationledlight/kitchen",kitchenLightState);
+                             connection.PublishToTopic("homeautomationledlight/outside",OutsideLightState);
+                             connection.PublishToTopic("homeautomationledlight/rgb",RGBValue);
+                             connection.PublishToTopic("homeautomationmotor/gate",gateState);
+                             connection.PublishToTopic("homeautomationmotor/shutter",shutterState);
+
+                             Toast.makeText(NewMode.this,txt_modeName.getText()
+                                            +" mode Activated !",Toast.LENGTH_SHORT).show();
+
+                             DatabaseExecutionHandler(true,"Activated",mdh);
+                        }else{
+                              Toast.makeText(NewMode.this,"No Connection. Not Activated"
+                                      ,Toast.LENGTH_LONG).show();
+
+                              DatabaseExecutionHandler(false,"off",mdh);
+                              }
+                     }
+                                }).setNegativeButton("CANCEL",null);//no activation
                         AlertActivateMode.show();
-                    }
-                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+             }
+             //decide not to activate mode now
+           }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                //No immediate activation
                 StatusState="off";
-                exec(mdh);
+                execTransactionToDB(mdh);
+                //if time is set
+                if(!Objects.equals(setTIME.getText().toString(), "SET TIME")) {
+                    //schedule activation of mode for later
+                    setScheduledPublishModeAlarm(alarmCalender.getTimeInMillis());
+                }
                 finish();
                 Intent searchIntent = new Intent(NewMode.this, Mode.class);
                 startActivity(searchIntent);
             }
         });
-
+        //force user to select an option to preserve date integrity in DB
         AlertBuilder.setCancelable(false);
 
         AlertBuilder.show();
     }
 
-    public void exec(TheDBHandler mdh){
+    public void execTransactionToDB(TheDBHandler mdh){
         if(NewMode==true){ //INSERT IN DB
             mdh.addScenes(
                     txt_modeName.getText().toString(),
@@ -221,6 +263,32 @@ public class NewMode extends AppCompatActivity {
         mdh.getWritableDatabase().execSQL(
                 "UPDATE scenes SET _status='off' WHERE NOT _sceneName='"+txt_modeName.getText()+"'"
         );
+    }
+
+    public void DatabaseExecutionHandler(boolean bool_status,String MyStatusState,TheDBHandler mydbh){
+        NewMode.this.finish();
+        status.setChecked(bool_status);
+        StatusState=MyStatusState;
+        setTIME.setText("SET TIME");
+        execTransactionToDB(mydbh);
+        finish();
+        Intent searchIntent = new Intent(NewMode.this, Mode.class);
+        startActivity(searchIntent);
+    }
+
+    private void setScheduledPublishModeAlarm(long time) {
+        //getting the alarm manager
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        //creating a new intent specifying the broadcast receiver
+        Intent i = new Intent(this, AlarmNotificationForModes.class);
+
+        //creating a pending intent using the intent
+        PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
+
+        //setting the repeating alarm that will be fired every day
+        am.setRepeating(AlarmManager.RTC, time, AlarmManager.INTERVAL_DAY, pi);
+        Toast.makeText(this, txt_modeName.getText()+" Mode scheduled", Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -145,6 +145,33 @@ public class TheDBHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+    public Scenes getAlarmDetails(String time){
+        Scenes s= new Scenes();
+        SQLiteDatabase db = getWritableDatabase();
+        String query ="SELECT * FROM "+ TABLE_SCENES +" WHERE "+COLUMN_TIMETOACTIVATE+"='"+time+"'";
+
+        //cursor to traverse results
+        Cursor c = db.rawQuery(query,null);
+
+        if(c.getCount()!=0) {
+            //move to first row
+            if (c.moveToFirst()) {
+                s.set_sceneName(c.getString(c.getColumnIndex("_sceneName")));
+                s.set_lightLivingRoom(c.getString(c.getColumnIndex("_lightLivingRoom")));
+                s.set_lightKitchen(c.getString(c.getColumnIndex("_lightKitchen")));
+                s.set_lightOutside(c.getString(c.getColumnIndex("_lightOutside")));
+                s.set_RGBlight(c.getString(c.getColumnIndex("_RGBlight")));
+                s.set_gate(c.getString(c.getColumnIndex("_gate")));
+                s.set_shutter(c.getString(c.getColumnIndex("_shutter")));
+                s.set_timeToActivate(c.getString(c.getColumnIndex("_timeToActivate")));
+                s.set_status(c.getString(c.getColumnIndex("_status")));
+            }
+        }
+        c.close();
+        db.close();
+        return s;
+    }
+
     public void display(TextView t){
         Scenes s= new Scenes();
         SQLiteDatabase db = getWritableDatabase();

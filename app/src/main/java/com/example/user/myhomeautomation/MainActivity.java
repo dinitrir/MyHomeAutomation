@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle toggle;
     public MqttAndroidClient client=null;
     public TextView temperature_text,humidity_text,motion_text,motion_icon,smoke_text,smoke_icon,gas_text,gas_icon;
-    public Switch ButtonGateSwitch;
+    public Switch ButtonGateSwitch,AwayModeSwitch;
     public static String motionStatus="idle";
     final String[] topicSub={"homeautomationtemperaturehumiditysensor/dhtsensor","homeautomationmotionsensor/pirsensor","homeautomationmotor/gatestatus","homeautomationsmokesensor/mq2sensor","homeautomationcosensor/mq7sensor"};
 
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         gas_text=(TextView) findViewById(R.id.txt_Gas);
         gas_icon=(TextView) findViewById(R.id.txt_Gas_icon);
 
+        AwayModeSwitch= (Switch)findViewById(R.id.away_mode_switch);
+
         MQTTConnectionToActivity connection = new MQTTConnectionToActivity(MainActivity.this,topicSub);
         client= connection.getClient();
 
@@ -70,6 +73,23 @@ public class MainActivity extends AppCompatActivity {
             public void deliveryComplete(IMqttDeliveryToken token) {
 
                 }
+        });
+        //Handling away mode / home mode
+        AwayModeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                TextView home = (TextView)findViewById(R.id.txt_home_mode);
+                TextView away = (TextView)findViewById(R.id.txt_away_mode);
+                if(isChecked){
+                    home.setTextColor(getResources().getColor(android.R.color.background_light));
+                    away.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
+                    //publish
+                }else{
+                    away.setTextColor(getResources().getColor(android.R.color.background_light));
+                    home.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
+                   // publish
+                }
+            }
         });
 
 

@@ -1,7 +1,6 @@
 package com.example.user.myhomeautomation;
 
-import android.app.Activity;
-import android.content.Context;
+
 import android.content.Intent;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,7 +16,6 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 import java.util.ArrayList;
-
 
 public class Mode extends AppCompatActivity{
 
@@ -86,9 +84,10 @@ public class Mode extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 NewMode.NewMode=true;//preparing activity to embrace new mode
+                finish();
                 Intent searchIntent = new Intent(Mode.this, NewMode.class);
                 startActivity(searchIntent);
-                finish();
+
             }
         });
 

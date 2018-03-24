@@ -46,6 +46,13 @@
         <activity android:name=".NewMode"
             android:label="New Mode"/>
 
+        <receiver
+            android:name=".AlarmNotificationForModes"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <service android:name=".MQTTasService"
+            android:enabled="true"/>
     </application>
 
 </manifest>

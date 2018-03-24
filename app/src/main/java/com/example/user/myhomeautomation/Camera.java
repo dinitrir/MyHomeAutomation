@@ -1,20 +1,21 @@
 package com.example.user.myhomeautomation;
 
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
-/**
- * Created by User on 08/12/2017.
- */
+import java.util.ArrayList;
 
 public class Camera extends AppCompatActivity {
 
@@ -28,10 +29,41 @@ public class Camera extends AppCompatActivity {
         HamburgerMenu HamMenu= new HamburgerMenu(Camera.this);
         toggle= HamMenu.getToggle();
 
-        TextView t=(TextView)findViewById(R.id.table);
+        ListView camList = (ListView)findViewById(R.id.camera_listview);
+        ArrayList<String> arrayList = new ArrayList<>();
+        arrayList.add("CCTV Surveillance");
+        arrayList.add("Face Recognition");
+        arrayList.add("Gesture Recognition");
 
-        TheDBHandler mdh =new TheDBHandler(Camera.this,null,null,2);
-        mdh.display(t);
+        CustomListviewAdapter camAdapter = new CustomListviewAdapter(Camera.this,arrayList);
+        camList.setAdapter(camAdapter);
+
+        camList.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String txt = String.valueOf(parent.getItemAtPosition(position));
+                        switch (txt){
+                            case "CCTV Surveillance":
+                                Intent cctv_intent = new Intent(Camera.this, CCTV.class);
+                                startActivity(cctv_intent);
+                                break;
+                            case "Face Recognition":
+                                Intent facial_intent = new Intent(Camera.this, Recognition.class);
+                                startActivity(facial_intent);
+                                break;
+                            case "Gesture Recognition":
+                                Intent gesture_intent = new Intent(Camera.this, Recognition.class);
+                                startActivity(gesture_intent);
+                                break;
+                            default:
+                                break;
+
+                        }
+
+                    }
+                }
+        );
 
     }
 

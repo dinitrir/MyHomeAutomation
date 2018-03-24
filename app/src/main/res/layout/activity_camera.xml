@@ -37,20 +37,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:layout_marginTop="?attr/actionBarSize"
             >
-        <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/table"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="These are the cameras"
-                android:textColor="@color/black"
-                android:padding="20dp"
-                android:textSize="30sp"
-                android:layout_marginTop="100dp" />
-        </ScrollView>
+
+            <ListView
+                android:id="@+id/camera_listview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>i
+
+
         </RelativeLayout>
         <!-- END of content-->
     </android.support.design.widget.CoordinatorLayout>
