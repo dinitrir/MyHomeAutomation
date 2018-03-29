@@ -1,19 +1,13 @@
 package com.example.user.myhomeautomation;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-
-/**
- * Created by User on 2/9/2018.
- */
 
 public class HamburgerMenu implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -60,6 +54,10 @@ public class HamburgerMenu implements NavigationView.OnNavigationItemSelectedLis
             currentActivity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
         }else if(id == R.id.itemMode) {
             Intent searchIntent = new Intent(currentActivity.getApplicationContext(), Mode.class);
+            currentActivity.startActivity(searchIntent);
+            currentActivity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+        }else if(id == R.id.itemVoice) {
+            Intent searchIntent = new Intent(currentActivity.getApplicationContext(),VoiceInterpreter.class);
             currentActivity.startActivity(searchIntent);
             currentActivity.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
         }

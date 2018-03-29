@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,7 +36,7 @@ public class Camera extends AppCompatActivity {
         arrayList.add("Face Recognition");
         arrayList.add("Gesture Recognition");
 
-        CustomListviewAdapter camAdapter = new CustomListviewAdapter(Camera.this,arrayList);
+        ArrayAdapter<String> camAdapter = new ArrayAdapter<String>(Camera.this,R.layout.simple_row,arrayList);
         camList.setAdapter(camAdapter);
 
         camList.setOnItemClickListener(

@@ -50,6 +50,16 @@ public class MQTTConnectionToActivity {
                             SubscribeToTopic(topicSub[i]);//subscribe to topic
                         }
                     }
+                    if(CurrentActivity.getClass()== Light.class){
+                        PublishToTopic("dfdfsdf","dfsdf");
+                    }
+                    if(CurrentActivity.getClass()== Door.class){
+                        PublishToTopic("dfdfsdf","dfsdf");
+                    }
+                    if(CurrentActivity.getClass()== CCTV.class){
+                        PublishToTopic("dfdfsdf","dfsdf");
+                    }
+
 
                 }
 

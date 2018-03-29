@@ -1,15 +1,21 @@
 package com.example.user.myhomeautomation;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -21,10 +27,11 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 public class MainActivity extends AppCompatActivity {
 
     ActionBarDrawerToggle toggle;
+    public static MQTTConnectionToActivity c;
     public MqttAndroidClient client=null;
     public TextView temperature_text,humidity_text,motion_text,motion_icon,smoke_text,smoke_icon,gas_text,gas_icon;
     public Switch ButtonGateSwitch,AwayModeSwitch;
-    public static String motionStatus="idle";
+    public static String motionStatus="idle",m_Text="24";
     final String[] topicSub={"homeautomationtemperaturehumiditysensor/dhtsensor","homeautomationmotionsensor/pirsensor","homeautomationmotor/gatestatus","homeautomationsmokesensor/mq2sensor","homeautomationcosensor/mq7sensor"};
 
     @Override
@@ -55,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
 
         AwayModeSwitch= (Switch)findViewById(R.id.away_mode_switch);
 
-        MQTTConnectionToActivity connection = new MQTTConnectionToActivity(MainActivity.this,topicSub);
+        final MQTTConnectionToActivity connection = new MQTTConnectionToActivity(MainActivity.this,topicSub);
+        c=connection;//for temp
         client= connection.getClient();
 
         client.setCallback(new MqttCallback() {
@@ -83,12 +91,19 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked){
                     home.setTextColor(getResources().getColor(android.R.color.background_light));
                     away.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
-                    //publish
+                    connection.PublishToTopic("homeautomationmode","away");
                 }else{
                     away.setTextColor(getResources().getColor(android.R.color.background_light));
                     home.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
-                   // publish
+                    connection.PublishToTopic("homeautomationmode","home");
                 }
+            }
+        });
+
+        temperature_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setTemperature();
             }
         });
 
@@ -176,6 +191,28 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
         }
+    }
+
+    public void setTemperature(){
+        final EditText txtTemp = new EditText(this);
+        txtTemp.setHint("Temperature in degree celcius");
+
+        new AlertDialog.Builder(this)
+                .setTitle("Temperature Limit")
+                .setMessage("Set temperature to activate fan")
+                .setView(txtTemp)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        m_Text = txtTemp.getText().toString();
+                        c.PublishToTopic("hgfghf",m_Text);
+
+                    }
+                })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                .show();
     }
 
 

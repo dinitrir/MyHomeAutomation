@@ -11,6 +11,9 @@
     tools:openDrawer="start">
 
 <!--This is the application bar-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -25,6 +28,7 @@
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOVerlay">
 
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -33,9 +37,7 @@
                 app.popupTheme="@style/AppTheme.PopupOverlay" />
         </android.support.design.widget.AppBarLayout>
         <!--This is the Content of the activity-->
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/dashboard_relative_layout"
@@ -278,11 +280,11 @@
             </LinearLayout>
 
         </LinearLayout>
-        </ScrollView>
+
         <!--This is the END of the Content of the activity-->
     </android.support.design.widget.CoordinatorLayout>
 
-
+    </ScrollView>
     <!--This is the END of the application bar-->
 
     <android.support.design.widget.NavigationView

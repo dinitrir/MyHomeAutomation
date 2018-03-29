@@ -46,6 +46,15 @@
         <activity android:name=".NewMode"
             android:label="New Mode"/>
 
+        <activity android:name=".CCTV"
+            android:label="cctv"/>
+
+        <activity android:name=".Recognition"
+            android:label="recognition"/>
+
+        <activity android:name=".VoiceInterpreter"
+            android:label="voice Interpreter"/>
+
         <receiver
             android:name=".AlarmNotificationForModes"
             android:enabled="true"

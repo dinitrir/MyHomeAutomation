@@ -26,6 +26,7 @@ public class NewMode extends AppCompatActivity {
     public static boolean NewMode;
     public static String Scene_Name;
     static Calendar alarmCalender;
+    static String ScheduleTime;
 
     //for color selector activity
     public static String RGBValue="0,0,0";
@@ -50,7 +51,6 @@ public class NewMode extends AppCompatActivity {
         setContentView(R.layout.activity_newmode);
 
         connection= new MQTTConnectionToActivity(NewMode.this,topicSub);
-
         livingRoom= (Switch) findViewById(R.id.LivingRoomLightSwitchMode);
         kitchen= (Switch) findViewById(R.id.KitchenLightSwitchMode);
         Outside= (Switch) findViewById(R.id.OutsideLightSwitchMode);
@@ -225,10 +225,12 @@ public class NewMode extends AppCompatActivity {
                 //No immediate activation
                 StatusState="off";
                 execTransactionToDB(mdh);
-                //if time is set
-                if(!Objects.equals(setTIME.getText().toString(), "SET TIME")) {
+                //if time is se
+                if((!Objects.equals(setTIME.getText().toString(), "SET TIME")) ) {
                     //schedule activation of mode for later
-                    setScheduledPublishModeAlarm(alarmCalender.getTimeInMillis());
+                    if(alarmCalender!=null) {
+                        setScheduledPublishModeAlarm(alarmCalender.getTimeInMillis());
+                    }
                 }
                 finish();
                 Intent searchIntent = new Intent(NewMode.this, Mode.class);

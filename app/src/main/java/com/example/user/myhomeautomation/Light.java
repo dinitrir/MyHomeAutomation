@@ -1,8 +1,7 @@
 package com.example.user.myhomeautomation;
 
-import android.app.Activity;
+
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,23 +13,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
-
 import org.eclipse.paho.android.service.MqttAndroidClient;
-import org.eclipse.paho.client.mqttv3.IMqttActionListener;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 
 public class Light extends AppCompatActivity {
 
     //widgets on light content page
     ActionBarDrawerToggle toggle;
     public Switch LivingRoomSwitch,KitchenSwitch,OutsideSwitch;
+
     final String[] topicSub={"homeautomationstatusesBack"};
 
     //mqtt components
@@ -47,14 +40,13 @@ public class Light extends AppCompatActivity {
         HamburgerMenu HamMenu= new HamburgerMenu(Light.this);
         toggle= HamMenu.getToggle();
 
+        //MQTT Connection
+        connection= new MQTTConnectionToActivity(Light.this,topicSub);
+        client=connection.getClient();
+
         LivingRoomSwitch= (Switch) findViewById(R.id.LivingRoomLightSwitch);
         KitchenSwitch= (Switch) findViewById(R.id.KitchenLightSwitch);
         OutsideSwitch= (Switch) findViewById(R.id.OutsideLightSwitch);
-
-        //MQTT Connection
-        connection= new MQTTConnectionToActivity(Light.this,topicSub);
-        connection.PublishToTopic("homeautomationstatuses","opensactivity");
-        client=connection.getClient();
 
         client.setCallback(new MqttCallback() {
             @Override
@@ -72,6 +64,7 @@ public class Light extends AppCompatActivity {
 
             }
         });
+
 
         //Living Room Light switch
         LivingRoomSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -140,6 +133,7 @@ public class Light extends AppCompatActivity {
                 connection.PublishToTopic(topic,"0,0,0");
             }
         });
+
 
     }
 

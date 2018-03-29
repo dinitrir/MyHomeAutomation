@@ -22,6 +22,10 @@
             android:id="@+id/itemMode"
             android:icon="@drawable/night_mode"
             android:title="Modes" />
+        <item
+            android:id="@+id/itemVoice"
+            android:icon="@drawable/ic_keyboard_voice_black_24dp"
+            android:title="Voice Command" />
     </group>
 
 </menu>
