@@ -51,13 +51,13 @@ public class MQTTConnectionToActivity {
                         }
                     }
                     if(CurrentActivity.getClass()== Light.class){
-                        PublishToTopic("dfdfsdf","dfsdf");
+                        PublishToTopic("homeautomationlight/status","activityLight");
                     }
                     if(CurrentActivity.getClass()== Door.class){
-                        PublishToTopic("dfdfsdf","dfsdf");
+                        PublishToTopic("homeautomationdoor/status","activityDoor");
                     }
                     if(CurrentActivity.getClass()== CCTV.class){
-                        PublishToTopic("dfdfsdf","dfsdf");
+                        PublishToTopic("homeautomationcamera/cctv","activityCCTV");
                     }
 
 

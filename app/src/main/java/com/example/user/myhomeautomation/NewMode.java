@@ -289,7 +289,7 @@ public class NewMode extends AppCompatActivity {
         PendingIntent pi = PendingIntent.getBroadcast(this, 0, i, 0);
 
         //setting the repeating alarm that will be fired every day
-        am.setRepeating(AlarmManager.RTC, time, AlarmManager.INTERVAL_DAY, pi);
+        am.setRepeating(AlarmManager.RTC, time, AlarmManager.RTC_WAKEUP, pi);
         Toast.makeText(this, txt_modeName.getText()+" Mode scheduled", Toast.LENGTH_SHORT).show();
     }
 

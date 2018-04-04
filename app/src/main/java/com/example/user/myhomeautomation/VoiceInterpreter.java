@@ -27,6 +27,8 @@ public class VoiceInterpreter extends AppCompatActivity{
     private static final int REQ_CODE_SPEECH_INPUT = 100;
     private TextView mVoiceInputTv;
     ActionBarDrawerToggle toggle;
+    String[] topicSub=null;
+    MQTTConnectionToActivity con;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,6 +40,10 @@ public class VoiceInterpreter extends AppCompatActivity{
 
         mVoiceInputTv=(TextView)findViewById(R.id.voice_text);
         mbtSpeak = (ImageButton) findViewById(R.id.btSpeak);
+
+        con = new MQTTConnectionToActivity(VoiceInterpreter.this,topicSub);
+
+
     }
 
     public  void  CheckVoiceRecognition(){
@@ -69,6 +75,7 @@ public class VoiceInterpreter extends AppCompatActivity{
             {
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 mVoiceInputTv.setText(result.get(0));
+                interpreteVoiceMessage(mVoiceInputTv.getText().toString());
             }
         }
         else if (resultCode == RecognizerIntent.RESULT_AUDIO_ERROR){
@@ -93,6 +100,54 @@ public class VoiceInterpreter extends AppCompatActivity{
 
     void  showToastMessage(String message){
         Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+    }
+
+    public void interpreteVoiceMessage(String message){
+        String returnMessage="";
+        switch (message){
+            case "light living room on":
+                con.PublishToTopic("homeautomationledlight/livingroom","on");
+                break;
+            case "light living room off":
+                con.PublishToTopic("homeautomationledlight/livingroom","off");
+                break;
+            case "light kitchen on":
+                con.PublishToTopic("homeautomationledlight/kitchen","on");
+                break;
+            case "light kitchen off":
+                con.PublishToTopic("homeautomationledlight/kitchen","off");
+                break;
+            case "light outside on":
+                con.PublishToTopic("homeautomationledlight/outside","on");
+                break;
+            case "light outside off":
+                con.PublishToTopic("homeautomationledlight/outside","off");
+                break;
+            case "all lights on":
+                con.PublishToTopic("homeautomationledlight/livingroom","on");
+                con.PublishToTopic("homeautomationledlight/kitchen","on");
+                con.PublishToTopic("homeautomationledlight/outside","on");
+                break;
+            case "all lights off":
+                con.PublishToTopic("homeautomationledlight/livingroom","off");
+                con.PublishToTopic("homeautomationledlight/kitchen","off");
+                con.PublishToTopic("homeautomationledlight/outside","off");
+                break;
+            case "open gate":
+                con.PublishToTopic("homeautomationmotor/gate","open");
+                break;
+            case "close gate":
+                con.PublishToTopic("homeautomationmotor/gate","close");
+                break;
+            case "open shutter":
+                con.PublishToTopic("homeautomationmotor/shutter","open");
+                break;
+            case "close shutter":
+                con.PublishToTopic("homeautomationmotor/shutter","close");
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
