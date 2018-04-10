@@ -22,9 +22,8 @@ import java.util.Locale;
 
 public class VoiceInterpreter extends AppCompatActivity{
 
-    private  static  final int VOICE_RECOGNITION_REQUEST_CODE = 1001;
+    private  static  final int VOICE_RECOGNITION_REQUEST_CODE = 1001,REQ_CODE_SPEECH_INPUT = 100;
     private ImageButton mbtSpeak;
-    private static final int REQ_CODE_SPEECH_INPUT = 100;
     private TextView mVoiceInputTv;
     ActionBarDrawerToggle toggle;
     String[] topicSub=null;
@@ -42,8 +41,6 @@ public class VoiceInterpreter extends AppCompatActivity{
         mbtSpeak = (ImageButton) findViewById(R.id.btSpeak);
 
         con = new MQTTConnectionToActivity(VoiceInterpreter.this,topicSub);
-
-
     }
 
     public  void  CheckVoiceRecognition(){
@@ -67,7 +64,6 @@ public class VoiceInterpreter extends AppCompatActivity{
 
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode,int resultCode,Intent data){

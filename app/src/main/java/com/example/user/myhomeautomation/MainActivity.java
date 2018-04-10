@@ -99,11 +99,11 @@ public class MainActivity extends AppCompatActivity {
                 if(isChecked){
                     home.setTextColor(getResources().getColor(android.R.color.background_light));
                     away.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
-                    connection.PublishToTopic("homeautomationmode","away");
+                    connection.PublishToTopic("HomeMode","AWAY");
                 }else{
                     away.setTextColor(getResources().getColor(android.R.color.background_light));
                     home.setTextColor(getResources().getColor(android.R.color.holo_blue_light));
-                    connection.PublishToTopic("homeautomationmode","home");
+                    connection.PublishToTopic("HomeMode","HOME");
                 }
             }
         });

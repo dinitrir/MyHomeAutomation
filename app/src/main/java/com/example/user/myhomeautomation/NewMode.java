@@ -22,21 +22,17 @@ import java.util.Calendar;
 import java.util.Objects;
 
 public class NewMode extends AppCompatActivity {
-
     public static boolean NewMode;
-    public static String Scene_Name;
+    public static String Scene_Name,ScheduleTime;
     static Calendar alarmCalender;
-    static String ScheduleTime;
-
+    
     //for color selector activity
     public static String RGBValue="0,0,0";
 
     //widgets on activity
     private Switch livingRoom,kitchen,Outside,gate,shutter,status;
-    private Button setcolor,off,setTIME;
+    private Button setcolor,off,setTIME,mOkButton,mCancelButton;
     private EditText txt_modeName;
-    private Button mOkButton;
-    private Button mCancelButton;
 
     public static String livingLightState, kitchenLightState,OutsideLightState;
     public static String gateState,shutterState,StatusState;

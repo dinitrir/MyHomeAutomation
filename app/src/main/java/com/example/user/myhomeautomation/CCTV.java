@@ -7,12 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.Toast;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class CCTV extends AppCompatActivity {
 
@@ -68,5 +65,3 @@ public class CCTV extends AppCompatActivity {
     }
 
 }
-
-//https://stackoverflow.com/questions/2661536/how-to-programmatically-take-a-screenshot-in-android
