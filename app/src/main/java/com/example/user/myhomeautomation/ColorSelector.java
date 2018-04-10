@@ -75,26 +75,26 @@ public class ColorSelector extends AppCompatActivity implements ColorPickerView.
         mOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if(sourceClass=="Light") {
-
-                    SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(ColorSelector.this).edit();
+                    SharedPreferences.Editor edit = PreferenceManager
+                            .getDefaultSharedPreferences(ColorSelector.this).edit();
                     edit.putInt("color_3", mColorPickerView.getColor());
                     edit.commit();
-
                 }else{
-                    SharedPreferences.Editor editmode = PreferenceManager.getDefaultSharedPreferences(ColorSelector.this).edit();
+                    SharedPreferences.Editor editmode = PreferenceManager
+                            .getDefaultSharedPreferences(ColorSelector.this).edit();
                     editmode.putInt("color_mode_3", mColorPickerView.getColor());
                     editmode.commit();
                 }
-
                 //converting color to rgb
                 String white = "#ffffff";
                 int whiteInt = Color.parseColor(white);
                 removeAlpha(mColorPickerView.getColor(),whiteInt);
 
                 //passing color  rgb code as string
-                String content= Integer.toString(ColorSelector.redNew)+","+Integer.toString(ColorSelector.greenNew)+","+Integer.toString(ColorSelector.blueNew);
+                String content= Integer.toString(ColorSelector.redNew)+
+                        ","+Integer.toString(ColorSelector.greenNew)+","
+                        +Integer.toString(ColorSelector.blueNew);
                 String topic = "homeautomationledlight/rgb";
 
                 if(sourceClass=="Light") {

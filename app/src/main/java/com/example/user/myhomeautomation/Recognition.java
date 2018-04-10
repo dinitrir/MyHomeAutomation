@@ -26,10 +26,10 @@ public class Recognition extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
                     case R.id.radioFace:
-                        connection.PublishToTopic("homeautomationcamera/face","activityFace");
+                        connection.PublishToTopic("homeautomationrequest","activityFace");
                         break;
                     case R.id.radioGesture:
-                        connection.PublishToTopic("homeautomationcamera/gesture","activityGesture");
+                        connection.PublishToTopic("homeautomationrequest","activityGesture");
                         break;
                     case R.id.radioNone:
                         break;

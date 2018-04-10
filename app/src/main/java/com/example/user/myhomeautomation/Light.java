@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
+
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -23,8 +26,9 @@ public class Light extends AppCompatActivity {
     //widgets on light content page
     ActionBarDrawerToggle toggle;
     public Switch LivingRoomSwitch,KitchenSwitch,OutsideSwitch;
+    public static int index=0;
 
-    final String[] topicSub={"homeautomationstatusesBack"};
+    final String[] topicSub={"homeautomationstatuses"};
 
     //mqtt components
     public MqttAndroidClient client=null;
@@ -156,10 +160,13 @@ public class Light extends AppCompatActivity {
 
     public void HandleMessage(String topic, MqttMessage message){
         String msg= new String(message.getPayload());
-        String[] buttonStatus=msg.split("|");
-        LivingRoomSwitch.setChecked(buttonStatus[0].equals("on")?true:false);
-        KitchenSwitch.setChecked(buttonStatus[1].equals("on")?true:false);
-        OutsideSwitch.setChecked(buttonStatus[2].equals("on")?true:false);
+        String[] buttonStatus=msg.split("\\|");
+        Switch lv = (Switch)findViewById(R.id.LivingRoomLightSwitch);
+        Switch ki = (Switch)findViewById(R.id.KitchenLightSwitch);
+        Switch out = (Switch)findViewById(R.id.OutsideLightSwitch);
+        if(buttonStatus[0].equals("on")){lv.setChecked(true);}
+        if(buttonStatus[2].equals("on")){ki.setChecked(true);}
+        if(buttonStatus[1].equals("on")){out.setChecked(true);}
     }
 
     @Override

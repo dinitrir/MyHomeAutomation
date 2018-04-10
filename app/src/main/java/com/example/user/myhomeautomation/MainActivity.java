@@ -2,6 +2,9 @@ package com.example.user.myhomeautomation;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.v4.view.GravityCompat;
@@ -9,11 +12,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.v7.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     ActionBarDrawerToggle toggle;
     public static MQTTConnectionToActivity c;
     public MqttAndroidClient client=null;
-    public TextView temperature_text,humidity_text,motion_text,motion_icon,smoke_text,smoke_icon,gas_text,gas_icon;
+    public TextView temperature_text,humidity_text,motion_text,motion_icon,smoke_text,smoke_icon,gas_text,gas_icon,door_text,door_icon;
     public Switch ButtonGateSwitch,AwayModeSwitch;
     public static String motionStatus="idle",m_Text="24";
     final String[] topicSub={"homeautomationtemperaturehumiditysensor/dhtsensor","homeautomationmotionsensor/pirsensor","homeautomationmotor/gatestatus","homeautomationsmokesensor/mq2sensor","homeautomationcosensor/mq7sensor"};
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         smoke_icon= new TextView(this.getApplicationContext());
         gas_text= new TextView(this.getApplicationContext());
         gas_icon= new TextView(this.getApplicationContext());
+        door_text= new TextView(this.getApplicationContext());
+        door_icon= new TextView(this.getApplicationContext());
 
         temperature_text= (TextView) findViewById(R.id.txt_temperature);
         humidity_text=(TextView) findViewById(R.id.txt_humidity);
@@ -59,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         smoke_icon=(TextView) findViewById(R.id.txt_Smoke_icon);
         gas_text=(TextView) findViewById(R.id.txt_Gas);
         gas_icon=(TextView) findViewById(R.id.txt_Gas_icon);
+        door_text=(TextView) findViewById(R.id.txt_door_access);
+        door_icon=(TextView) findViewById(R.id.txt_DoorAcces_icon);
+
+
 
         AwayModeSwitch= (Switch)findViewById(R.id.away_mode_switch);
 
@@ -162,10 +170,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "homeautomationmotor/gatestatus":
                 if(msg.equals("open")){
-                    ButtonGateSwitch.setChecked(Boolean.TRUE);
+                    door_text.setText("Door Open");
+                    door_icon.setTextColor(Color.parseColor("#db4343"));
                 }
                 else{
-                    ButtonGateSwitch.setChecked(Boolean.FALSE);
+                    door_text.setText("Door Closed");
+                    door_icon.setTextColor(Color.parseColor("#94c64d"));
                 }
                 break;
 
@@ -173,19 +183,22 @@ public class MainActivity extends AppCompatActivity {
                 if(msg.equals("smoke")){
                     smoke_text.setText("Smoke Detected");
                     smoke_icon.setTextColor(Color.parseColor("#db4343"));
+                    NotifyUser("Smoke Dectected");
                 }
                 else{
                     smoke_text.setText("No Smoke");
                     smoke_icon.setTextColor(Color.parseColor("#94c64d"));
+
                 }
                 break;
             case "homeautomationcosensor/mq7sensor":
                 if(msg.equals("gas")){
-                    gas_text.setText("Smoke Detected");
+                    gas_text.setText("CO Gas Detected");
                     gas_icon.setTextColor(Color.parseColor("#db4343"));
+                    NotifyUser("Carbon Monoxide Detected");
                 }
                 else{
-                    gas_text.setText("No Smoke");
+                    gas_text.setText("No CO Gas");
                     gas_icon.setTextColor(Color.parseColor("#94c64d"));
                 }
                 break;
@@ -204,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         m_Text = txtTemp.getText().toString();
-                        c.PublishToTopic("hgfghf",m_Text);
+                        c.PublishToTopic("homeautomationthresholdtemperature",m_Text);
 
                     }
                 })
@@ -215,5 +228,18 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    public void NotifyUser(String subject){
+        NotificationCompat.Builder NotifBuilder = new NotificationCompat.Builder(getApplicationContext());
+        NotifBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(subject)
+                .setContentText("Warning")
+                .setDefaults(Notification.DEFAULT_LIGHTS | Notification.DEFAULT_SOUND)
+                .setContentInfo("Info");
 
+        NotificationManager notificationManager = (NotificationManager)this.getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1,NotifBuilder.build());
+    }
 }

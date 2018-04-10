@@ -18,10 +18,11 @@ public class Door extends AppCompatActivity {
 
     ActionBarDrawerToggle toggle;
     public Switch ButtonGateSwitch,ButtonShutterSwitch;
-    final String[] topicSub={"homeautomationstatusesBack"};
+    final String[] topicSub={"homeautomationstatuses"};
     //mqtt components
     public MqttAndroidClient client=null;
     MQTTConnectionToActivity connection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +34,6 @@ public class Door extends AppCompatActivity {
         //MQTT Connection
         connection= new MQTTConnectionToActivity(Door.this,topicSub);
         client=connection.getClient();
-
 
         client.setCallback(new MqttCallback() {
             @Override
@@ -51,7 +51,6 @@ public class Door extends AppCompatActivity {
 
             }
         });
-
 
         //Gate switch
         ButtonGateSwitch= (Switch) findViewById(R.id.GateSwitch);

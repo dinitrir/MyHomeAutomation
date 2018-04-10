@@ -6,11 +6,13 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class CCTV extends AppCompatActivity {
 
@@ -24,6 +26,10 @@ public class CCTV extends AppCompatActivity {
 
         //MQTT connection
         connection= new MQTTConnectionToActivity(this,topicSub);
+
+        WebView wb = (WebView)findViewById(R.id.cctv_webview);
+        wb.loadUrl("http://192.168.100.7:8081");
+
     }
 
     public void quit(View view){
